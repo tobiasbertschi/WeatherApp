@@ -9,15 +9,19 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.HashMap;
 
 public class WeatherActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor pressure;
 
-    private TextView textView;
+    private TextView pressureView;
+    private TextView tempView;
+    private TextView windView;
+    private TextView descView;
 
-    private float time = 0f;
+    private WeatherService weatherService = new WeatherService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,18 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
         pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 
         sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_NORMAL);
+
+        HashMap<String, String> data = weatherService.getWeather();
+
+        tempView = (TextView) findViewById(R.id.temperature);
+        tempView.setText(data.get("temperature"));
+
+        windView = (TextView) findViewById(R.id.wind);
+        windView.setText(data.get("wind"));
+
+        descView = (TextView) findViewById(R.id.description);
+        descView.setText(data.get("description"));
+
     }
 
     @Override
@@ -38,11 +54,14 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
     @Override
     public final void onSensorChanged(SensorEvent event) {
 
+        //wird der so automatisch geupdated?
         float pressureValue = event.values[0];
 
-        textView = (TextView) findViewById(R.id.pressure);
-        textView.setText(Double.toString(pressureValue));
+        pressureView = (TextView) findViewById(R.id.pressure);
+        pressureView.setText(Double.toString(pressureValue));
+
 
     }
+
 
 }
