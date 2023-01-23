@@ -1,36 +1,31 @@
 package ch.zli.weatherapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView locationView;
-    public TextView descView;
+    private TextView descView;
+    private ImageButton weatherImage;
 
     private WeatherService weatherService = new WeatherService();
 
@@ -40,7 +35,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     final static String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     final static int all_permissions = 1;
 
+    private HashMap<String, String> data;
+
     JSONObject jsonObject = new JSONObject();
+
+    private Double lat;
+    private Double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        HashMap<String, String> data = weatherService.getCondition(location.getLatitude(), location.getLongitude());
+        lat = location.getLatitude();
+        lon = location.getLongitude();
+
+        data = weatherService.getCondition(lat, lon);
 
         locationView = (TextView) findViewById(R.id.location);
         locationView.setText(data.get("name"));
 
         descView = (TextView) findViewById(R.id.description);
         descView.setText(data.get("description"));
+
+        //getIcon();
     }
 
     @Override
@@ -91,12 +96,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
-    public void getWeather(Location location) {
-        /*Bundle bundle = new Bundle();
-        bundle.putDouble("lat", location.getLatitude());
-        bundle.putDouble("lon", location.getLongitude());
+    public void callWeather(View view) {
+        //With bundle i can give Values to another Activity
+        Bundle bundle = new Bundle();
+        bundle.putDouble("lat", lat);
+        bundle.putDouble("lon", lon);
         Intent weather = new Intent(this, WeatherActivity.class);
         weather.putExtras(bundle);
-        startActivity(weather);*/
+        startActivity(weather);
     }
+
+    /*public void getIcon() {
+        weatherImage = (ImageButton) findViewById(R.id.weatherImage);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.vertical);
+
+        Picasso.get().load("http://openweathermap.org/img/wn/10d@2x.png").into(weatherImage);
+        weatherImage.refreshDrawableState();
+        layout.refreshDrawableState();
+    }*/
 }

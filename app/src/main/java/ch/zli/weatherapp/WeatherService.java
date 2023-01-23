@@ -16,17 +16,17 @@ import java.util.HashMap;
 public class WeatherService {
 
     private String key = "ec5645b3fdc3e91b77501154c69c9796";
-    private String url = "https://api.openweathermap.org/data/2.5/weather?q=Zuerich&appid=" + key;
-    private String url2 = "https://api.openweathermap.org/data/2.5/weather?";
+    private String url = "https://api.openweathermap.org/data/2.5/weather?";
+    private String iconUrl = "http://openweathermap.org/img/wn/";
 
-    public HashMap<String, String> getWeather() {
+    public HashMap<String, String> getWeather(Double lat, Double lon) {
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
             OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder().url(url).get().build();
+            Request request = new Request.Builder().url(url + "lat=" + lat + "&lon=" + lon + "&appid=" + key).get().build();
 
             Response response = client.newCall(request).execute();
             String jsonString = response.body().string();
@@ -38,7 +38,9 @@ public class WeatherService {
             if (weather.length() > 0) {
                 JSONObject entry = weather.getJSONObject(0);
                 String description = entry.getString("description");
+                String icon = entry.getString("icon");
                 data.put("description", description);
+                data.put("icon", icon);
             }
 
             JSONObject main = jsonObject.getJSONObject("main");
@@ -75,7 +77,7 @@ public class WeatherService {
 
             OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder().url(url2 + "lat=" + lat + "&lon=" + lon + "&appid=" + key).get().build();
+            Request request = new Request.Builder().url(url + "lat=" + lat + "&lon=" + lon + "&appid=" + key).get().build();
 
             Response response = client.newCall(request).execute();
             String jsonString = response.body().string();
@@ -121,5 +123,13 @@ public class WeatherService {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 }

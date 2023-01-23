@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,20 +39,10 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
 
         sensorManager.registerListener(this, pressure, SensorManager.SENSOR_DELAY_NORMAL);
 
-        HashMap<String, String> data = weatherService.getWeather();
+        lat = getIntent().getDoubleExtra("lat", 0.0);
+        lon = getIntent().getDoubleExtra("lon", 0.0);
 
-        tempView = (TextView) findViewById(R.id.temperature);
-        tempView.setText(data.get("temperature"));
-
-        windView = (TextView) findViewById(R.id.wind);
-        windView.setText(data.get("wind"));
-
-        descView = (TextView) findViewById(R.id.description);
-        descView.setText(data.get("description"));
-
-        //lat = getIntent().getDoubleExtra("lat", 0.0);
-        //lon = getIntent().getDoubleExtra("lon", 0.0);
-
+        getWeather();
     }
 
     @Override
@@ -68,8 +59,24 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
         pressureView = (TextView) findViewById(R.id.pressure);
         pressureView.setText(Double.toString(pressureValue));
 
-
     }
 
+    public void getWeather() {
+        HashMap<String, String> data = weatherService.getWeather(lat, lon);
+
+        tempView = (TextView) findViewById(R.id.temperature);
+        tempView.setText(data.get("temperature"));
+
+        windView = (TextView) findViewById(R.id.wind);
+        windView.setText(data.get("wind"));
+
+        descView = (TextView) findViewById(R.id.description);
+        descView.setText(data.get("description"));
+    }
+
+    public void back(View view) {
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
+    }
 
 }

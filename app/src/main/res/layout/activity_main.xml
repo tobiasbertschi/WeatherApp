@@ -12,6 +12,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -20,7 +21,13 @@
                 android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="callWeather"
                 android:text="Location" />
+
+            <ImageButton
+                android:id="@+id/weatherImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/description"
