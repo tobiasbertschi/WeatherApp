@@ -50,6 +50,7 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
 
     }
 
+    //fetches the pressure from the Sensor and updates the value of him
     @Override
     public final void onSensorChanged(SensorEvent event) {
 
@@ -61,6 +62,8 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
 
     }
 
+
+    //fetches the temperature, wind, description from the API
     public void getWeather() {
         HashMap<String, String> data = weatherService.getWeather(lat, lon);
 
@@ -74,8 +77,10 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
         descView.setText(data.get("description"));
     }
 
+    //Go back to Main page
     public void back(View view) {
         Intent main = new Intent(this, MainActivity.class);
+        finish();
         startActivity(main);
     }
 

@@ -1,13 +1,18 @@
 package ch.zli.weatherapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -37,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private HashMap<String, String> data;
 
-    JSONObject jsonObject = new JSONObject();
-
     private Double lat;
     private Double lon;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         getLocation();
     }
 
+    //fetches the permissions and the locality
     public void getLocation() {
         try {
             //get permissions
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
+    //fetches the locality and weather conditions by latitude and longitude
     @Override
     public void onLocationChanged(Location location) {
         lat = location.getLatitude();
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String provider) {
-        //Toast ist eine Nachricht die den Platz ausfüllt während der Zeit wo ein Vorgang ausgeführt wird
+        //toast is a message that fills the space during the time when an operation is being performed
         Toast.makeText(MainActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+    //calls the weather activity and provides it with certain values
     public void callWeather(View view) {
         //With bundle i can give Values to another Activity
         Bundle bundle = new Bundle();
@@ -106,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         startActivity(weather);
     }
 
+    //displays a Picuture of the Weather
     /*public void getIcon() {
         weatherImage = (ImageButton) findViewById(R.id.weatherImage);
         LinearLayout layout = (LinearLayout) findViewById(R.id.vertical);
@@ -114,4 +119,41 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         weatherImage.refreshDrawableState();
         layout.refreshDrawableState();
     }*/
+
+    //creates the Notification Chanelle
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Trust Weather";
+            String description = "Trust Weather";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("Trust Weather", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    //sends the Notification with Title and Text
+    public void sendNotification() {
+
+        createNotificationChannel();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Trust Weather")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Trust Weather")
+                .setContentText(data.get("name") + "\n" + data.get("description"))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        notificationManager.notify(1, builder.build());
+    }
+
+    //closes the Programm and sends a Notification
+    public void byeBye(View view) {
+        sendNotification();
+        finish();
+        System.exit(0);
+    }
+
 }
