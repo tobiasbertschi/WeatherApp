@@ -17,7 +17,7 @@ public class WeatherService {
 
     private String key = "ec5645b3fdc3e91b77501154c69c9796";
     private String url = "https://api.openweathermap.org/data/2.5/weather?q=Zuerich&appid=" + key;
-    private String url2 = "https://api.openweathermap.org/data/3.0/onecall?" + key;
+    private String url2 = "https://api.openweathermap.org/data/2.5/weather?";
 
     public HashMap<String, String> getWeather() {
         try {
@@ -75,7 +75,7 @@ public class WeatherService {
 
             OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder().url(url2 + "lat=" + lat + "&lon=" + lon).get().build();
+            Request request = new Request.Builder().url(url2 + "lat=" + lat + "&lon=" + lon + "&appid=" + key).get().build();
 
             Response response = client.newCall(request).execute();
             String jsonString = response.body().string();

@@ -15,32 +15,50 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView locationView;
-    private TextView descView;
+    public TextView descView;
 
     private WeatherService weatherService = new WeatherService();
 
     LocationManager locationManager;
+
+    //are used to get permissions
+    final static String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+    final static int all_permissions = 1;
+
+    JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Intent weather = new Intent(this, WeatherActivity.class);
-        startActivity(weather);*/
-
-        //getLocation();
+        getLocation();
     }
 
     public void getLocation() {
         try {
+            //get permissions
+            requestPermissions(permissions, all_permissions);
+
+            //get locations
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+
         } catch (SecurityException e) {
             e.printStackTrace();
         }
@@ -73,7 +91,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
-    public void getConditions() {
-        //String condition = weatherService.getCondition();
+    public void getWeather(Location location) {
+        /*Bundle bundle = new Bundle();
+        bundle.putDouble("lat", location.getLatitude());
+        bundle.putDouble("lon", location.getLongitude());
+        Intent weather = new Intent(this, WeatherActivity.class);
+        weather.putExtras(bundle);
+        startActivity(weather);*/
     }
 }

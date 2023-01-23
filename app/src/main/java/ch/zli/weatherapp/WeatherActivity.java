@@ -1,6 +1,7 @@
 package ch.zli.weatherapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,6 +25,9 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
 
     private WeatherService weatherService = new WeatherService();
 
+    private Double lat;
+    private Double lon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,9 @@ public class WeatherActivity extends AppCompatActivity implements SensorEventLis
 
         descView = (TextView) findViewById(R.id.description);
         descView.setText(data.get("description"));
+
+        //lat = getIntent().getDoubleExtra("lat", 0.0);
+        //lon = getIntent().getDoubleExtra("lon", 0.0);
 
     }
 

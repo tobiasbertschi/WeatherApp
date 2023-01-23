@@ -7,3 +7,4 @@ https://stackoverflow.com/questions/54615951/how-can-i-extract-a-specific-part-o
 https://www.educative.io/answers/how-to-fix-androidosnetworkonmainthreadexception-error
 https://javapapers.com/android/get-current-location-in-android/
 https://www.thecrazyprogrammer.com/2017/01/how-to-get-current-location-in-android.html
+https://www.youtube.com/watch?v=77BO6UiWt4A
