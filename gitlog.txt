@@ -1,0 +1,55 @@
+commit f9f0f05590fe134ff92c3318b306825230113c95
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Mon Jan 23 15:51:13 2023 +0100
+
+    finish project and design
+
+commit 9f32115fecdf18a488dc256053da65f02ce73a79
+Author: Tobias Bertschi <70206569+tobiasbertschi@users.noreply.github.com>
+Date:   Mon Jan 23 14:14:37 2023 +0100
+
+    Update .gitignore
+    
+    Update from Android to Android Studio
+
+commit 37e130eba878846534eee8fc56a3342f8ad1a0c8
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Mon Jan 23 13:30:22 2023 +0100
+
+    add klick on location for more information
+
+commit 4c8c09f67558cc33a8ba54f41a34f308f07ff38f
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Mon Jan 23 10:52:36 2023 +0100
+
+    access to Location and API call with lat & lon
+
+commit 1a17af3a3d906b7106004f283940bfcd9fcbe515
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Wed Jan 18 16:44:41 2023 +0100
+
+    try to get Location
+
+commit e51022bf5d3c785ee456eed47ffb33ea9201214a
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Wed Jan 18 15:25:07 2023 +0100
+
+    api call to get temperature, wind and description
+
+commit bde494cac0be87426da1a89c9be9e84da238fea1
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Wed Jan 18 09:34:47 2023 +0100
+
+    get and print pressure
+
+commit b4ef29d89b85751f9a3a5706c8993f7dbffe559c
+Author: tobiasbertschi <gotteron89tb@gmail.com>
+Date:   Wed Jan 18 08:53:26 2023 +0100
+
+    first commit
+
+commit 091e65501aa6e0f4edb4ef8bb65b8848577726f1
+Author: Tobias Bertschi <70206569+tobiasbertschi@users.noreply.github.com>
+Date:   Wed Jan 18 08:51:59 2023 +0100
+
+    Initial commit
